@@ -1,24 +1,24 @@
-/**
- * A Branded Type for values parseable to number.
- */
-export type NumberParseable = (number | string | boolean) & {
-  readonly isNumberParseble: unique symbol;
-};
+import type { Dirent } from 'fs';
+import * as path from 'path';
+import getDirents from './getDirents';
 
-/**
- * Check if value is parseable to number.
- * @example ```ts
- * isNumberParseable('AAAA');
- * //=> false
- *
- * isNumberParseable('100');
- * //=> true
- *
- * if (!isNumberParseable(value))
- *   throw new Error('Value can\'t be parseable to `Number`.')
- * return Number(value);
- * ```
- * @param value - An `unknown` value to be checked.
- */
-export const isNumberParseable = (value: unknown): value is NumberParseable =>
-  !Number.isNaN(Number(value));
+function displayDirent(parent: string, dirent: Dirent): string {
+  return path.resolve(parent, dirent.name) + (dirent.isDirectory() ? '/' : '');
+}
+
+const parent = '.';
+
+getDirents(path.resolve(parent))
+  .then((dirents) => {
+    process.stdout.write('List of files and directories: \n');
+    dirents.forEach((dirent, index) => {
+      const number = (index + 1)
+        .toString(10)
+        .padStart(dirents.length.toString(10).length, ' ');
+      process.stdout.write(`${number}. ${displayDirent(parent, dirent)}\n`);
+    });
+  })
+  .catch((error) => {
+    const message = error?.message ?? error ?? 'Unknown error.';
+    process.stdout.write(`Error: ${message}\n`);
+  });
