@@ -23,7 +23,7 @@ const banner = `/*!
 function createOutputOptions(options) {
   return {
     banner,
-    name: '[libraryCamelCaseName]',
+    name: 'CheckPackageUsage',
     exports: 'named',
     sourcemap: true,
     ...options,

@@ -1,13 +1,13 @@
 /*!
- * [libraryName] v0.0.0
- * (c) [authorFullName]
+ * check-package-usage v0.0.0
+ * (c) Vitor Luiz Cavalcanti
  * Released under the MIT License.
  */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['[libraryCamelCaseName]'] = {}));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.CheckPackageUsage = {}));
 }(this, (function (exports) { 'use strict';
 
   /**
