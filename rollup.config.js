@@ -33,7 +33,7 @@ function createOutputOptions(options) {
  * @type {import('rollup').RollupOptions}
  */
 const options = {
-  input: './src/index.ts',
+  input: './src/main.ts',
   output: [
     createOutputOptions({
       file: './dist/index.js',
