@@ -17,7 +17,7 @@ async function setup() {
 
       try {
         if (dirent.isFile()) {
-          console.log('Searching into ', `${path}...`);
+          process.stdout.write(`Searching into ${path}\n`);
 
           await readFileLineByLine(path, (line) => {
             packages.forEach((packageName, index) => {
@@ -36,6 +36,9 @@ async function setup() {
   }
 
   await checkPackageUsage('.');
+
+  process.stdout.write(`Unused packages:\n`);
+  packages.forEach((packageName) => process.stdout.write(`${packageName}\n`));
 }
 
 setup();
