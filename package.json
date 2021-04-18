@@ -15,7 +15,9 @@
       "./dist/index.js"
     ]
   },
-  "dependencies": {},
+  "dependencies": {
+    "tslib": "^2.2.0"
+  },
   "devDependencies": {
     "@types/eslint": "^7.2.9",
     "@types/jest": "^26.0.22",
