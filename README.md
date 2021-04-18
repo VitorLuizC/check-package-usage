@@ -1,6 +1,6 @@
 # `check-package-usage`
 
-[![Build Status](https://travis-ci.org/VitorLuizC/check-package-usage.svg?branch=master)](https://travis-ci.org/VitorLuizC/check-package-usage)
+[![Build Status](https://www.travis-ci.com/VitorLuizC/check-package-usage.svg?branch=main)](https://www.travis-ci.com/VitorLuizC/check-package-usage)
 [![License](https://badgen.net/github/license/VitorLuizC/check-package-usage)](./LICENSE)
 
 ## Installation
