@@ -1,6 +1,5 @@
-import * as fs from 'fs';
-
-const ENCODING = 'utf-8';
+import fs from 'fs';
+import { options } from './options.js';
 
 /**
  * Get a list of dirents from the received path.
@@ -8,14 +7,14 @@ const ENCODING = 'utf-8';
  * @returns {Promise<import('fs').Dirent[]>}
  */
 function getDirents(path: string): Promise<fs.Dirent[]> {
-  const options = {
-    encoding: ENCODING,
+  const settings = {
+    encoding: options.encoding,
     withFileTypes: true,
   } as const;
 
   return new Promise((resolve, reject) => {
     // TODO: Add option to verbosely display read directories.
-    fs.readdir(path, options, (error, dirents) => {
+    fs.readdir(path, settings, (error, dirents) => {
       if (error) {
         // TODO: Display errors as warnings.
         reject(error);

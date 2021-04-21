@@ -1,4 +1,4 @@
-import resolvePath from './resolvePath';
+import resolvePath from './resolvePath.js';
 
 /**
  * Get a list of packages from package.json's dependencies and devDependencies.

@@ -1,7 +1,10 @@
 import fs from 'fs';
 import readline from 'readline';
-import resolvePath from './resolvePath';
-import { ENCODING } from './main';
+import resolvePath from './resolvePath.js';
+import { options } from './options.js';
+
+/** Representation of `fs.createReadStream` options object. */
+type ReadStreamOptions = Parameters<typeof fs.createReadStream>[1];
 
 /**
  * Reads the file line-by-line and calls 'onLine' callback for each one of them.
@@ -13,22 +16,26 @@ function readFileLineByLine(
   path: string,
   onLine: (line: string) => void,
 ): Promise<void> {
+  const readStreamOptions: ReadStreamOptions = {
+    encoding: options.encoding,
+    flags: 'r', // read-only
+  };
+
+  const interfaceOptions: readline.ReadLineOptions = {
+    input: fs.createReadStream(resolvePath(path), readStreamOptions),
+    terminal: false,
+  };
+
   return new Promise((resolve, reject) => {
-    const file = readline.createInterface({
-      input: fs.createReadStream(resolvePath(path), {
-        flags: 'r',
-        encoding: ENCODING,
-      }),
-      terminal: false,
-    });
+    const rl = readline.createInterface(interfaceOptions);
 
-    file.on('line', onLine);
+    rl.on('line', onLine);
 
-    file.on('close', () => {
+    rl.on('close', () => {
       resolve();
     });
 
-    file.on('SIGINT', () => {
+    rl.on('SIGINT', () => {
       reject(new Error('SIGINT'));
     });
   });

@@ -1,10 +1,8 @@
-import getDirents from './getDirents';
-import getPackages from './getPackages';
-import packageWasUsed from './packageWasUsed';
-import readFileLineByLine from './readFileLineByLine';
-import resolvePath from './resolvePath';
-
-export const ENCODING = 'utf-8';
+import getDirents from './getDirents.js';
+import getPackages from './getPackages.js';
+import packageWasUsed from './packageWasUsed.js';
+import readFileLineByLine from './readFileLineByLine.js';
+import resolvePath from './resolvePath.js';
 
 async function setup() {
   const packages = await getPackages();
