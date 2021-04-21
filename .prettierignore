@@ -4,3 +4,6 @@
 # Generated bundles and type declaration files.
 dist/
 types/
+
+# Generated test coverage report files.
+coverage/
