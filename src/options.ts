@@ -3,6 +3,8 @@
  * @typedef {Object} Options
  * @property {BufferEncoding} encoding
  */
+
+/** The representation of options object. */
 export type Options = {
   encoding: BufferEncoding;
 };
