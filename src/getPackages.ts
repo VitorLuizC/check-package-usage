@@ -2,7 +2,7 @@ import resolvePath from './resolvePath.js';
 
 /**
  * Get a list of packages from package.json's dependencies and devDependencies.
- * @returns {string[]}
+ * @returns {Promise<string[]>}
  */
 async function getPackages(): Promise<string[]> {
   try {
