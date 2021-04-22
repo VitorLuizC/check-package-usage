@@ -21,21 +21,21 @@ function readFileLineByLine(
     flags: 'r', // read-only
   };
 
-  const interfaceOptions: readline.ReadLineOptions = {
-    input: fs.createReadStream(resolvePath(path), readStreamOptions),
-    terminal: false,
-  };
-
   return new Promise((resolve, reject) => {
-    const rl = readline.createInterface(interfaceOptions);
+    const input = fs.createReadStream(resolvePath(path), readStreamOptions);
 
-    rl.on('line', onLine);
+    const file = readline.createInterface({
+      input,
+      terminal: false,
+    });
 
-    rl.on('close', () => {
+    file.on('line', onLine);
+
+    file.on('close', () => {
       resolve();
     });
 
-    rl.on('SIGINT', () => {
+    file.on('SIGINT', () => {
       reject(new Error('SIGINT'));
     });
   });
