@@ -1,7 +1,7 @@
 {
   "name": "check-package-usage",
   "version": "0.0.0",
-  "description": "",
+  "description": "A CLI that checks how a package is used in your source; shows unused packages; which packages are used in CommonJS/ESM; and other insights about your packages.",
   "main": "dist/index.js",
   "files": ["dist/"],
   "bin": {
@@ -47,9 +47,11 @@
     "url": "git+https://github.com/VitorLuizC/check-package-usage.git"
   },
   "keywords": [
-    "typescript",
-    "boilerplate",
-    "library"
+    "package-analysis",
+    "dependency-analysis",
+    "unused-packages",
+    "unused-dependencies",
+    "cli"
   ],
   "author": {
     "name": "Vitor Luiz Cavalcanti"
