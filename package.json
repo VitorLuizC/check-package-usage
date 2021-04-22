@@ -2,10 +2,10 @@
   "name": "check-package-usage",
   "version": "0.1.0",
   "description": "A CLI that checks how a package is used in your source; shows unused packages; which packages are used in CommonJS/ESM; and other insights about your packages.",
-  "main": "dist/index.js",
+  "main": "dist/main.js",
   "files": ["dist/"],
   "bin": {
-    "check-package-usage": "./dist/index.js"
+    "check-package-usage": "./dist/main.js"
   },
   "dependencies": {
     "tslib": "^2.2.0"
