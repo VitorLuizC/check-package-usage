@@ -5,28 +5,22 @@ import typescript2 from 'rollup-plugin-typescript2';
 import pkg from './package.json';
 
 /**
- * Comment with library information to be appended in the generated bundles.
+ * A shebang to execute script with Node.js.
+ * @see {@link https://en.wikipedia.org/wiki/Shebang_(Unix)}
  */
-const banner = `/*!
+const SHEBANG = '#!/usr/bin/env node';
+
+/** Comment with library information (name, version, author and license). */
+const PACKAGE_INFORMATION = `
+/*!
  * ${pkg.name} v${pkg.version}
  * (c) ${pkg.author.name}
  * Released under the ${pkg.license} License.
  */
 `;
 
-/**
- * Creates an output options object for Rollup.js.
- * @param {import('rollup').OutputOptions} options
- * @returns {import('rollup').OutputOptions}
- */
-function createOutputOptions(options) {
-  return {
-    banner,
-    exports: 'named',
-    sourcemap: true,
-    ...options,
-  };
-}
+/** Content appended to top of the bundles. */
+const banner = `${SHEBANG}\n${PACKAGE_INFORMATION}`;
 
 /**
  * An object with Rollup.js options.
@@ -34,29 +28,17 @@ function createOutputOptions(options) {
  */
 const options = {
   input: './src/main.ts',
-  output: [
-    createOutputOptions({
-      file: './dist/index.js',
-      format: 'commonjs',
-    }),
-    createOutputOptions({
-      file: './dist/index.cjs',
-      format: 'commonjs',
-    }),
-    createOutputOptions({
-      file: './dist/index.mjs',
-      format: 'esm',
-    }),
-    createOutputOptions({
-      file: './dist/index.esm.js',
-      format: 'esm',
-    }),
-  ],
+  output: {
+    banner,
+    file: './dist/main.js',
+    format: 'commonjs',
+    exports: 'named',
+    sourcemap: true,
+  },
   plugins: [
     typescript2({
       clean: true,
       tsconfig: './tsconfig.bundle.json',
-      useTsconfigDeclarationDir: true,
     }),
   ],
 };
