@@ -7,6 +7,7 @@
 /** The representation of options object. */
 export type Options = {
   encoding: BufferEncoding;
+  exclude: string[];
 };
 
 /**
@@ -15,6 +16,7 @@ export type Options = {
  */
 const DEFAULT_OPTIONS = Object.freeze<Options>({
   encoding: 'utf-8',
+  exclude: ['./.git', './node_modules'],
 });
 
 /**
