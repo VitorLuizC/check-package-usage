@@ -1,5 +1,6 @@
 import getDirents from './getDirents.js';
 import getPackages from './getPackages.js';
+import { options } from './options.js';
 import packageWasUsed from './packageWasUsed.js';
 import readFileLineByLine from './readFileLineByLine.js';
 import resolvePath from './resolvePath.js';
@@ -11,6 +12,9 @@ async function checkPackageUsage(folder: string, packagesNames: string[]) {
     const path = `${folder}/${dirent.name}`;
 
     try {
+      // Ignore when 'path' matches any item of 'exclude' list.
+      if (options.exclude.includes(path)) continue;
+
       if (dirent.isFile()) {
         process.stdout.write(`Searching into ${path}\n`);
 
