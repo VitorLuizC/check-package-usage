@@ -1,9 +1,10 @@
-import { options, setOptions } from './options';
+import { Options, options, setOptions } from './options';
 
 describe('options', () => {
   it('exports options object', () => {
     expect(options).toEqual({
       encoding: 'utf-8',
+      exclude: ['./.git', './node_modules'],
     });
   });
 });
@@ -13,10 +14,12 @@ describe('setOptions', () => {
     const updatedOptions = setOptions((options) => ({
       ...options,
       encoding: 'base64',
+      exclude: ['./.git', './node_modules', './dist'],
     }));
 
     expect(updatedOptions).toEqual({
       encoding: 'base64',
+      exclude: ['./.git', './node_modules', './dist'],
     });
   });
 
@@ -28,6 +31,7 @@ describe('setOptions', () => {
 
     expect(options).toEqual({
       encoding: 'latin1',
+      exclude: ['./.git', './node_modules'],
     });
   });
 });
