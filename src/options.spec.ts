@@ -10,6 +10,19 @@ describe('options', () => {
 });
 
 describe('setOptions', () => {
+  let currentOptions: Options;
+
+  beforeEach(() => {
+    setOptions((options) => {
+      currentOptions = options;
+      return options;
+    });
+  });
+
+  afterEach(() => {
+    setOptions(() => currentOptions);
+  });
+
   it('returns updated options object', () => {
     const updatedOptions = setOptions((options) => ({
       ...options,
