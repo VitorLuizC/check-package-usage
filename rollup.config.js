@@ -1,5 +1,6 @@
 // @ts-check
 
+import json from '@rollup/plugin-json';
 import typescript2 from 'rollup-plugin-typescript2';
 
 import pkg from './package.json';
@@ -36,6 +37,7 @@ const options = {
     sourcemap: true,
   },
   plugins: [
+    json(),
     typescript2({
       clean: true,
       tsconfig: './tsconfig.bundle.json',
