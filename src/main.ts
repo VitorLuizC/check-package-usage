@@ -1,55 +1,62 @@
-import getDirents from './getDirents.js';
+import cac from 'cac';
 import getPackages from './getPackages.js';
-import { options } from './options.js';
-import packageWasUsed from './packageWasUsed.js';
-import readFileLineByLine from './readFileLineByLine.js';
-import resolvePath from './resolvePath.js';
+import isTypeOf from './predicates/isTypeOf.js';
+import isArrayOf from './predicates/isArrayOf.js';
+import { options, setOptions } from './options.js';
+import checkPackageUsage from './checkPackageUsage';
+import * as program from '../package.json';
 
-async function checkPackageUsage(folder: string, packagesNames: string[]) {
-  const dirents = await getDirents(resolvePath(folder));
+const isValid = /*__PURE__*/ isArrayOf(isTypeOf('string'));
 
-  for (const dirent of dirents) {
-    const path = `${folder}/${dirent.name}`;
+/**
+ * Resolve arguments to a list of paths.
+ * @param {unknown} value
+ * @returns {string[]}
+ */
+function resolveToListOfPaths(value: unknown): string[] {
+  if (!isValid(value)) return [];
 
-    try {
-      // Ignore when 'path' matches any item of 'exclude' list.
-      if (options.exclude.includes(path)) continue;
-
-      if (dirent.isFile()) {
-        process.stdout.write(`Searching into ${path}\n`);
-
-        await readFileLineByLine(path, (line) => {
-          packagesNames.forEach((packageName, index) => {
-            if (packageWasUsed(packageName, line)) {
-              packagesNames.splice(index, 1);
-            }
-          });
-        });
-
-        continue;
-      }
-
-      if (dirent.isDirectory()) {
-        await checkPackageUsage(path, packagesNames);
-
-        continue;
-      }
-    } catch {
-      // "CRIME OCORRE NADA ACONTECE FEIIJOADA" - Anônimo
-    }
-  }
+  return value.flatMap((paths: string) => paths.split(','));
 }
 
-async function setup() {
-  const packagesNames = await getPackages();
+const cli = cac(program.name);
 
-  await checkPackageUsage('.', packagesNames);
+cli.version(program.version);
 
-  process.stdout.write(`Unused packages:\n`);
+cli
+  .command('[...packages]', 'Check how packages are used.')
+  .option(
+    '--exclude <A comma separated list of globs>',
+    'Specifies a list of globs to be excluded from compilation.',
+    {
+      type: [],
+      default: options.exclude,
+    },
+  )
+  .option(
+    '--encoding <A buffer enconding>',
+    'Specifies the buffer encondig to be used.',
+    { default: options.encoding },
+  )
+  .action(async (_, args) => {
+    // Update options.
+    setOptions((options) => ({
+      ...options,
+      encoding: args.encoding,
+      exclude: resolveToListOfPaths(args.exclude),
+    }));
 
-  packagesNames.forEach((packageName) => {
-    process.stdout.write(`${packageName}\n`);
+    const packagesNames = await getPackages();
+
+    await checkPackageUsage('.', packagesNames);
+
+    process.stdout.write(`Unused packages:\n`);
+
+    packagesNames.forEach((packageName) => {
+      process.stdout.write(`${packageName}\n`);
+    });
   });
-}
 
-setup();
+cli.help();
+
+cli.parse();
