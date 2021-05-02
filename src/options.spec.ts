@@ -5,6 +5,7 @@ describe('options', () => {
     expect(options).toEqual({
       encoding: 'utf-8',
       exclude: ['./.git', './node_modules'],
+      packagesNames: [],
     });
   });
 });
