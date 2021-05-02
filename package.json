@@ -1,6 +1,6 @@
 {
   "name": "check-package-usage",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A CLI that checks how a package is used in your source; shows unused packages; which packages are used in CommonJS/ESM; and other insights about your packages.",
   "main": "dist/main.js",
   "files": [
