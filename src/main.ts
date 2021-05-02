@@ -1,23 +1,9 @@
 import cac from 'cac';
 import getPackages from './getPackages.js';
-import isTypeOf from './predicates/isTypeOf.js';
-import isArrayOf from './predicates/isArrayOf.js';
 import { options, setOptions } from './options.js';
 import checkPackageUsage from './checkPackageUsage';
+import resolveToPaths from './resolveToPaths';
 import * as program from '../package.json';
-
-const isValid = /*__PURE__*/ isArrayOf(isTypeOf('string'));
-
-/**
- * Resolve arguments to a list of paths.
- * @param {unknown} value
- * @returns {string[]}
- */
-function resolveToListOfPaths(value: unknown): string[] {
-  if (!isValid(value)) return [];
-
-  return value.flatMap((paths: string) => paths.split(','));
-}
 
 const cli = cac(program.name);
 
@@ -43,7 +29,7 @@ cli
     setOptions((options) => ({
       ...options,
       encoding: args.encoding,
-      exclude: resolveToListOfPaths(args.exclude),
+      exclude: resolveToPaths(args.exclude),
     }));
 
     const packagesNames = await getPackages();
