@@ -25,16 +25,17 @@ cli
     { default: options.encoding },
   )
   .action(async (_, args) => {
+    const packagesNames = await getPackages();
+
     // Update options.
     setOptions((options) => ({
       ...options,
+      packagesNames,
       encoding: args.encoding,
       exclude: resolveToPaths(args.exclude),
     }));
 
-    const packagesNames = await getPackages();
-
-    await checkPackageUsage('.', packagesNames);
+    await checkPackageUsage('.');
 
     process.stdout.write(`Unused packages:\n`);
 

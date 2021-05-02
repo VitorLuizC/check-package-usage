@@ -4,10 +4,7 @@ import packageWasUsed from './packageWasUsed.js';
 import readFileLineByLine from './readFileLineByLine.js';
 import resolvePath from './resolvePath.js';
 
-async function checkPackageUsage(
-  folder: string,
-  packagesNames: string[],
-): Promise<void> {
+async function checkPackageUsage(folder: string): Promise<void> {
   const dirents = await getDirents(resolvePath(folder));
 
   for (const dirent of dirents) {
@@ -21,9 +18,9 @@ async function checkPackageUsage(
         process.stdout.write(`Searching into ${path}\n`);
 
         await readFileLineByLine(path, (line) => {
-          packagesNames.forEach((packageName, index) => {
+          options.packagesNames.forEach((packageName, index) => {
             if (packageWasUsed(packageName, line)) {
-              packagesNames.splice(index, 1);
+              options.packagesNames.splice(index, 1);
             }
           });
         });
@@ -32,7 +29,7 @@ async function checkPackageUsage(
       }
 
       if (dirent.isDirectory()) {
-        await checkPackageUsage(path, packagesNames);
+        await checkPackageUsage(path);
 
         continue;
       }

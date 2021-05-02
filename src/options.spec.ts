@@ -28,11 +28,13 @@ describe('setOptions', () => {
       ...options,
       encoding: 'base64',
       exclude: ['./.git', './node_modules', './dist'],
+      packagesNames: ['react'],
     }));
 
     expect(updatedOptions).toEqual({
       encoding: 'base64',
       exclude: ['./.git', './node_modules', './dist'],
+      packagesNames: ['react'],
     });
   });
 
@@ -45,6 +47,7 @@ describe('setOptions', () => {
     expect(options).toEqual({
       encoding: 'latin1',
       exclude: ['./.git', './node_modules'],
+      packagesNames: [],
     });
   });
 });

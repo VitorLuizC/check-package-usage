@@ -8,6 +8,7 @@
 export type Options = {
   encoding: BufferEncoding;
   exclude: string[];
+  packagesNames: string[];
 };
 
 /**
@@ -17,6 +18,7 @@ export type Options = {
 const DEFAULT_OPTIONS = Object.freeze<Options>({
   encoding: 'utf-8',
   exclude: ['./.git', './node_modules'],
+  packagesNames: [],
 });
 
 /**
