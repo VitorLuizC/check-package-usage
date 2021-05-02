@@ -37,11 +37,37 @@ cli
 
     await checkPackageUsage('.');
 
-    process.stdout.write(`Unused packages:\n`);
+    const packagesUsages = await checkPackageUsage('.');
 
-    packagesNames.forEach((packageName) => {
-      process.stdout.write(`${packageName}\n`);
-    });
+    const entries = Array.from(packagesUsages.entries());
+
+    const packagesNotImportedAtAll = entries.filter(
+      ([, imports]) => imports.length === 0,
+    );
+
+    if (packagesNotImportedAtAll.length) {
+      process.stdout.write(`Packages not imported at all:\n`);
+
+      packagesNotImportedAtAll.forEach(([packageName]) => {
+        const message = ` - '${packageName}' wasn't imported in any source.\n`;
+        process.stdout.write(message);
+      });
+    }
+
+    const packagesOnlyImportedOnce = entries.filter(
+      ([, imports]) => imports.length === 1,
+    );
+
+    if (packagesOnlyImportedOnce.length) {
+      process.stdout.write(`Packages only imported once:\n`);
+
+      packagesOnlyImportedOnce.forEach(([packageName, imports]) =>
+        imports.forEach(({ line, file }) => {
+          process.stdout.write(`- '${packageName}' was just imported here:\n`);
+          process.stdout.write(`  ${file}:${line}\n\n`);
+        }),
+      );
+    }
   });
 
 cli.help();
